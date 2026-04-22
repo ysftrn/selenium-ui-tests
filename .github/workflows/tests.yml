@@ -1,0 +1,21 @@
+name: Selenium Grid Tests
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start Selenium Grid
+        run: docker compose up -d
+
+      - name: Wait for Grid
+        run: sleep 10
+
+      - name: Run tests
+        run: pytest -v
